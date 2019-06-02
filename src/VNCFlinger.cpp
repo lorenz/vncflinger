@@ -190,13 +190,13 @@ status_t VNCFlinger::createVirtualDisplay() {
 
     mDpy = SurfaceComposerClient::createDisplay(String8("VNC-VirtualDisplay"), false /*secure*/);
 
-    SurfaceComposerClient::openGlobalTransaction();
-    SurfaceComposerClient::setDisplaySurface(mDpy, mProducer);
+    SurfaceComposerClient::Transaction t;
+    t.setDisplaySurface(mDpy, mProducer);
     Rect displayRect(0, 0, mSourceWidth, mSourceHeight);
     Rect outRect(0, 0, mWidth, mHeight);
-    SurfaceComposerClient::setDisplayProjection(mDpy, 0, displayRect, outRect);
-    SurfaceComposerClient::setDisplayLayerStack(mDpy, 0);  // default stack
-    SurfaceComposerClient::closeGlobalTransaction();
+    t.setDisplayProjection(mDpy, 0, displayRect, outRect);
+    t.setDisplayLayerStack(mDpy, 0);  // default stack
+    t.apply();
 
     mVDSActive = true;
 

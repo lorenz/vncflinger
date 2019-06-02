@@ -25,7 +25,8 @@ LOCAL_SHARED_LIBRARIES := \
     libssl \
     libui \
     libutils \
-    libz
+    libz \
+    liblog
 
 LOCAL_STATIC_LIBRARIES += \
     libvncserver
