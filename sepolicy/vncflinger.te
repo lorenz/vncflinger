@@ -11,7 +11,18 @@ allow vncflinger uhid_device:chr_file rw_file_perms;
 # read buffers from surfaceflinger
 allow vncflinger ion_device:chr_file r_file_perms;
 allow vncflinger surfaceflinger_service:service_manager find;
+allow vncflinger hal_graphics_composer:fd use;
+allow vncflinger hal_graphics_allocator:fd use;
+allow hal_graphics_composer_default vncflinger:fd use;
+allow vncflinger hal_graphics_mapper_hwservice:hwservice_manager find;
+allow vncflinger hal_graphics_allocator_hwservice:hwservice_manager find;
+allow vncflinger hal_graphics_allocator_server:binder call;
 binder_call(vncflinger, surfaceflinger);
+hal_client_domain(vncflinger, hal_graphics_allocator);
 
 # buffer callbacks
 binder_call(surfaceflinger, vncflinger);
+
+# hwservicemanager
+hwbinder_use(vncflinger)
+get_prop(vncflinger, hwservicemanager_prop)
